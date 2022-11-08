@@ -1,0 +1,15 @@
+font:
+  # iNSTA
+  normal:
+   family: JetBrainsMono NL Nerd Font
+   style:  Semibold
+
+  italic:
+   family: JetBrainsMono NL Nerd Font
+   style:  Italic
+
+  bold_italic:
+   family: JetBrainsMono NL Nerd Font
+   style:  Bold Italic
+
+  size: 9
