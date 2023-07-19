@@ -1,0 +1,3 @@
+#!/bin/bash
+
+paplay $HOME/.local/share/sounds/notification-2.ogg &

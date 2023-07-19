@@ -16,9 +16,9 @@ window {
     transparency:                   "real";
     background-color:               @background;
     text-color:                     @foreground;
-    border:                  		1px;
-    border-color:                  	@selected;
-    border-radius:                  0px;
+    border:                  		0px;
+    border-color:                  	@selector;
+    border-radius:                  10px;
     width:                          497px;
     location:                       center;
     anchor:                         center;
@@ -33,7 +33,7 @@ prompt {
 	background-color: 				@background;
 	text-color: 					@foreground;
     border:                  		0px 0px 0px 0px;
-    border-color:                  	@selected;
+    border-color:                  	@selector;
     border-radius:                  0px;
 }
 
@@ -41,7 +41,7 @@ textbox-prompt-colon {
 	expand: 						false;
 	str: 							"ﱘ";
     border-radius:                  0px;
-    background-color:               @selected;
+    background-color:               @selector;
     text-color:                     @background;
     padding:    					6px 10px 6px 10px;
 	font:							"Iosevka Nerd Font 10";
@@ -65,7 +65,7 @@ inputbar {
     text-color:                     @foreground;
     border:                  		0px 0px 1px 0px;
     border-radius:                  0px;
-    border-color:                  	@selected;
+    border-color:                  	@selector;
     expand:                         false;
     margin:                         0px 0px 0px 0px;
     padding:                        0px;
@@ -102,7 +102,7 @@ element {
     orientation:                    horizontal;
     border:                  		1px;
     border-radius:                  0px;
-    border-color:                  	@selected;
+    border-color:                  	@selector;
     padding:                        23.5px 25px 23.5px 25px;
 }
 
@@ -126,22 +126,22 @@ element-text {
 }
 
 element selected {
-    background-color:               @selected;
+    background-color:               @selector;
     text-color:                     @background;
     border:                  		0px;
     border-radius:                  0px;
-    border-color:                  	@selected;
+    border-color:                  	@selector;
 }
 
 element.active,
 element.selected.urgent {
-  background-color: @on;
+  background-color: @selected;
   text-color: @background;
-  border-color: @on;
+  border-color: @selected;
 }
 
 element.selected.urgent {
-  border-color: @selected;
+  border-color: @selector;
 }
 
 element.urgent,
@@ -152,5 +152,5 @@ element.selected.active {
 }
 
 element.selected.active {
-  border-color: @selected;
+  border-color: @selector;
 }

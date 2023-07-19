@@ -4,10 +4,11 @@
 configuration {
     location: 						0;
     fixed-num-lines: 				true;
-    show-icons: 					false;
+    show-icons:                     true;
+    icon-theme:						"Deepin2022";
     sidebar-mode: 					true;
     scroll-method: 					1;
-    window-format: 					"[{w}] ··· {c} ···   {t}";
+    window-format: 					"[{w}] ··· {c} ···  {t}";
     click-to-exit: 					true;
     combi-hide-mode-prefix: 		false;
     display-window: 				"";
@@ -26,39 +27,46 @@ configuration {
 }
 
 window {
-    border: 						1px;
-    border-color: 					@selected;
-    border-radius: 					0px;
+    border: 						0px;
+    border-color: 					@selector;
+    border-radius: 					10px;
     width: 							500px;
+    padding:                         10px;
     height: 						0px;
 }
 
 prompt {
-    spacing: 						0;
-    border: 						0;
-    background-color:             	@highlight;
+    spacing: 						1;
+    border-radius: 					3px;
+    border: 						2;
+    background-color:             	@selector;
     text-color: 					@background;
-    padding:    					6px 10px 6px 10px;
+    padding:    					6px 16px 6px 10px;
+    font:                           "JetBrainsMono NL Nerd Font 12";
 }
 
 textbox-prompt-colon {
     expand: 						false;
+    border-radius: 					0px;
     str: 							"";
     padding:    					6px 4px 6px 4px;
-    text-color: 					inherit;
+    text-color: 					@foreground;
 }
 
 entry {
-    spacing:    					0;
+    spacing:    					10;
+    border-radius: 					0px;
     expand:                         true;
-    horizontal-align:               0;
+    horizontal-align:               0.01;
+    vertical-align:                 0.5;
     text-color: 					@foreground;
     placeholder-color:              @foreground;
     placeholder:                    "Search...";
     padding:    					6px 2px 6px 2px;
     border: 						0px 0px 1px 0px;
-    border-color: 					@selected;
+    border-color: 					@foreground;
     border-radius: 					0px;
+    font:                           "JetBrainsMono NL Nerd Font 10";
 }
 
 case-indicator {
@@ -68,38 +76,52 @@ case-indicator {
 
 inputbar {
     spacing:    					0px;
+    border-radius: 					0px;
     text-color: 					@foreground;
     border: 						0px;
-    border-color: 					@selected;
-    border-radius: 					0px;
+    border-color: 					@selector;
     children: 						[ prompt,textbox-prompt-colon,entry ];
 }
 
 mainbox {
     border: 						0px;
-    border-color: 					@selected;
+    border-radius: 					10px;
+    border-color: 					@selector;
     spacing: 						6px;
     padding: 						10px;
 }
 
 listview {
-    lines:							7;
+    lines:							8;
     columns:						1;
     fixed-height: 					0;
     border: 						0px;
+    border-radius: 					0px;
     border-color: 					@foreground;
-    spacing: 						2px;
+    spacing: 						5px;
     scrollbar: 						false;
-    padding: 						4px 0px 0px;
+    padding: 						4px 4px 4px;
 }
 
-element-text, element-icon {
-    background-color: inherit;
-    text-color:       inherit;
+element-text {
+    padding: 						6px 0px 4px;
+    border-radius: 					0px;
+    background-color:               inherit;
+    text-color:                     inherit;
+    font:                           "JetBrainsMono NL Nerd Font 10";
+}
+element-icon {
+    padding: 						0px 10px 0px;
+    border-radius: 					0px;
+    size:                           24px;
+    background-color:               inherit;
+    text-color:                     inherit;
+    font:                           "JetBrainsMono NL Nerd Font 20";
 }
 
 element {
     border: 						0px;
+    border-radius: 					10px;
     padding: 						7px;
 }
 element normal.normal {
@@ -112,13 +134,13 @@ element normal.urgent {
 }
 element normal.active {
     background-color: 				@background;
-    text-color:       				@on;
+    text-color:       				@selected;
 }
 element selected.normal {
-    background-color: 				@selected;
+    background-color: 				@selector;
     text-color:       				@background;
     border: 						0px;
-    border-color: 					@selected;
+    border-color: 					@selector;
 }
 element selected.urgent {
     background-color: 				@background;
@@ -126,7 +148,7 @@ element selected.urgent {
 }
 element selected.active {
     background-color: 				@background;
-    text-color:       				@selected;
+    text-color:       				@selector;
 }
 element alternate.normal {
     background-color: 				@background;
@@ -143,15 +165,16 @@ element alternate.active {
 
 sidebar {
     border:       					0px;
-    border-color: 					@selected;
+    border-color: 					@selector;
     border-radius: 					0px;
 }
 
 button {
     margin: 						5px 0px 0px 0px;
-    horizontal-align:               0.5;
+    horizontal-align:               0.47;
     vertical-align:                 0.5;
     padding: 						7px;
+    font:                           "JetBrainsMono NL Nerd Font 13";
     text-color: 					@foreground;
     border: 						0px;
     border-radius: 					0px;
@@ -159,11 +182,11 @@ button {
 }
 
 button selected {
-    background-color:             	@selected;
+    background-color:             	@selector;
     text-color: 					@background;
     border: 						0px;
-    border-radius: 					0px;
-    border-color: 					@selected;
+    border-radius: 					10px;
+    border-color: 					@selector;
 }
 
 scrollbar {
@@ -176,7 +199,7 @@ scrollbar {
 
 message {
     border: 						0px;
-    border-color: 					@selected;
+    border-color: 					@selector;
     padding: 						1px;
 }
 

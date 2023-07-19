@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+BATTINFO='acpi -b'
+if [[ `echo $BATTINFO | grep Charging` && `echo $BATTINFO | cut -f 5 -d " "` > 1% ]] ; then
+         /usr/bin/dunstify -u low "Battery Full" "$BATTINFO" -i ~/.local/share/icons/Deepin2022-Dark/16/panel/battery-full-charged.svg
+
+fi

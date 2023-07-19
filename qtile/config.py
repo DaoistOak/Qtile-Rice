@@ -1,180 +1,41 @@
-    #!/bin/python3
-
-# Copyright (c) 2010 Aldo Cortesi
-# Copyright (c) 2010, 2014 dequis
-# Copyright (c) 2012 Randall Ma
-# Copyright (c) 2012-2014 Tycho Andersen
-# Copyright (c) 2012 Craig Barnes
-# Copyright (c) 2013 horsik
-# Copyright (c) 2013 Tao Sauvage
+#!/bin/python3
+#  ____     ____
+# / ___|   |  _ \
+# \___ \   | | | |
+#  ___) |  | |_| |
+# |____(_) |____(_)
 #
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-
-# Non Qtile imports
-from cgitb import text
-import subprocess
-import os
-import functools
-
-from libqtile import bar, layout, widget, hook
-from libqtile.config import Click, Drag, Group, Key, Match, Screen
+# Qtile imports
+import os, subprocess
+from libqtile import bar, layout, hook, widget, qtile
+from libqtile.config import Screen, Match
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-mod1= "mod1"
-mod = "mod4"
-terminal = "alacritty"
-rofi_theme = "one-dark" #"tomorrow-dark-cyan"
-launcher_theme = ".config/rofi/theme/launcher.rasi"
-home = os.path.expanduser('~')
+from libqtile.dgroups import simple_key_binder
 
-keys = [
-    # A list of available commands that can be bound to keys can be found
-    # at https://docs.qtile.org/en/latest/manual/config/lazy.html
-    # Switch between windows
-    Key([mod], "left", lazy.layout.left(), desc="Move focus to left"),
-    Key([mod], "right", lazy.layout.right(), desc="Move focus to right"),
-    Key([mod], "down", lazy.layout.down(), desc="Move focus down"),
-    Key([mod], "up", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
-    # Move windows between left/right columns or move up/down in current stack.
-    # Moving out of range in Columns layout will create new column.
-    Key([mod, "shift"], "left", lazy.layout.shuffle_left(), desc="Move window to the left"),
-    Key([mod, "shift"], "right", lazy.layout.shuffle_right(), desc="Move window to the right"),
-    Key([mod, "shift"], "down", lazy.layout.shuffle_down(), desc="Move window down"),
-    Key([mod, "shift"], "up", lazy.layout.shuffle_up(), desc="Move window up"),
-    # Grow windows. If current window is on the edge of screen and direction
-    # will be to screen edge - window would shrink.
-    Key([mod, "control"], "left", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key([mod, "control"], "right", lazy.layout.grow_right(), desc="Grow window to the right"),
-    Key([mod, "control"], "down", lazy.layout.grow_down(), desc="Grow window down"),
-    Key([mod, "control"], "up", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    Key(
-        [mod, "shift"],
-        "Return",
-        lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack",
-    ),
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    # Toggle between different layouts as defined below
-    Key([mod], "w", lazy.spawn('firefox'), desc="Launch firefox"),
-    Key([mod, "shift"], "w", lazy.spawn('firefox --private-window'), desc="Launch firefox private"),
-    Key([mod], "e", lazy.spawn('kate')),
-    Key([mod], "f", lazy.spawn('thunar')),
-    Key([mod], "q", lazy.spawn('emacs')),
-    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "c", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+from keys import keys, home, mod1, mod2, mod3, mod, groups, mouse
+from themes import Dracula, Midnight, Monokai, Tomorrow, One_dark, Nordic, Catppuccin
 
-###
-    # Rofi
-    Key([mod],"space", lazy.spawn([home + '/.config/rofi/script/launcher'])),
-    Key([mod], "x", lazy.spawn([home + '/.config/rofi/script/powermenu'])),
-    Key([mod], "m", lazy.spawn([home + '/.config/rofi/script/mpd'])),
-    Key([mod], "s", lazy.spawn([home + '/.config/rofi/script/screenshot'])),
-    Key([mod], "n", lazy.spawn(f"networkmanager_dmenu")),
-    Key([mod, "shift"], "r", lazy.spawn([home + '/.config/rofi/script/asroot'])),
-    Key([mod], "l", lazy.spawn(f"betterlockscreen --lock")),
-    # Audio key keybindings
-    Key([], "XF86AudioLowerVolume", lazy.spawn("pulsemixer --change-volume -5")),
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("pulsemixer --change-volume +5")),
-    Key([], "XF86AudioMute", lazy.spawn("pulsemixer --toggle-mute")),
-    Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl s 46.85+")),
-    Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl s 46.85-")),
-    Key([], "XF86AudioNext", lazy.spawn("playerctl next")),
-    Key([], "XF86AudioPrev", lazy.spawn("playerctl prev")),
-    Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause")),
-    # key([], "print", lazy.spawn(f"flameshot gui")),
-    Key([mod1], "Tab", lazy.spawn([home + '/.config/rofi/script/windows'])),
-]
-def init_group_names():
-    """
-    Returns a list of group names.
-    """
-    return [
-        ('\uf120', {'layout': 'Tiled'}),
-        ('\ue007', {'layout': 'Full'}),        # Firefox
-        ('\uf121', {'layout': 'Tiled'}),        # Code
-        ('', {'layout': 'Tiled'}),  # Thunar
-        ('\uf001', {'layout': 'Tiled'}),        # StackOverflow
-        ('\uf167', {'layout': 'Tiled'}),        # YouTube
-        ('\uf086', {'layout': 'Tiled'}),        # Chat
-        ('', {'layout': 'Full'})         # Music
-    ]
+from qtile_extras import widget
+from qtile_extras.widget import WiFiIcon
+from qtile_extras.widget.decorations import PowerLineDecoration
 
-def init_groups():
-    """
-    Returns a list of groups.
-    """
-    return [Group(name, **kwargs) for name, kwargs in group_names]
+@hook.subscribe.startup_once
+def start_once():
+    home = os.path.expanduser('~/.config/qtile/autostart.sh')
+    subprocess.Popen([home])
 
-if __name__ in ['config', '__main__']:
-    group_names = init_group_names()
-    groups = init_groups()
 
-    for i, (name, kwargs) in enumerate(group_names, 1):
-        keys.append(Key([mod], str(i), lazy.group[name].toscreen()))         # Switch to another group
-        keys.append(Key([mod, 'shift'], str(i), lazy.window.togroup(name)))  # Send current window to another group
 
-# def create_icon():
-#     """
-#     Returns an icon to be used in text elements of Qtile.
-#     """
-#     textbox = widget.TextBox(**widget_defaults)
-#     textbox.font = "Font Awesome 6 Free Solid"
-#     return textbox
 
-dark = {
-    "background": "2e3440",
-    "foreground": "f8f8f2",
-    "black":      "5c6370",
-    "red":        "e06c75",
-    "green":      "98c379",
-    "yellow":     "d19a66",
-    "blue":       "61afef",
-    "magenta":    "c678dd",
-    "cyan":       "56b6c2",
-    "white":      "828791",
-    "back":       "2e3440",
-    "fore":       "d8dee9",
-    "select":     "81a1c1",
-    "highlight":  "ebcb8b",
-    "urgent":     "bf616a",
-    "on":         "c679FF",
-    "off":        "212B30",
-    "BG":         "212B30",
-    "BG1":        "263035",
-    "BG2":        "2B353A",
-    "BG3":        "303A3F",
-    "BG4":        "353F44",
-    "BG5":        "3A4449",
-    "BG6":        "3F494E"
-}
+theme = Dracula
 
-theme = dark
-accent_color = theme["cyan"]
+accent_color=None
 
+
+
+
+# Define the layout options
 layout_defaults = {
     "border_width": 2,
     "border_focus": accent_color,
@@ -183,65 +44,57 @@ layout_defaults = {
 layout_mine = {
     "border_width": 1,
     "border_focus": theme["on"],
-    "border_normal": theme["off"],
+    "border_normal": theme["background"],
     "margin": 8,
 }
 layout_mine2 = {
     "border_width": 1,
     "border_focus": theme["on"],
-    "border_normal": theme["off"],
+    "border_normal": theme["background"],
 }
 layouts = [
-    layout.MonadTall(**layout_mine, name = "Tiled"),
-    layout.Max(name= "Full"),
-    # Try more layouts by unleashing below layouts.
-    #layout.Stack(num_stacks=2),
-    #layout.Bsp(),
-    #layout.Matrix(),
-    #layout.Tile(),
-    #layout.TreeTab(),
-    #layout.VerticalTile(),
-    layout.Floating( name = "Float"),
-    layout.Zoomy(**layout_mine, name = "MStack")
+    layout.MonadTall(**layout_mine, name="Tiled"),
+        layout.Spiral(**layout_mine),
+    layout.Bsp(
+        **layout_mine,
+        border_on_single=False,
+        fair=True,
+        grow_amount=10,
+        lower_right=True,
+        margin_on_single=None,
+        ratio=1.6,
+        wrap_clients=False
+    ),
+    layout.Max(name="  Fill "),
+    layout.Floating(name="Float"),
+    layout.Zoomy(**layout_mine, name="MStack"),
 ]
+
 widget_defaults = dict(
-    font="Cantarell Bold",
-    fontsize=12,#14
+    font="FiraCode Nerd Font Regular",
+    fontsize=12,
     padding=6,
 )
 extension_defaults = widget_defaults.copy()
 
-left_arrow = lambda background, foreground: widget.TextBox(
-    font="FiraCode Nerd Font Regular",
-    text="\uf438",
-    fontsize=60,
-    background=background,
-    foreground=foreground,
-    padding=-8,
-)
-
-icon = lambda char, foreground, background: widget.TextBox(
+icon = lambda char, foreground, background, fontsize: widget.TextBox(
     font="Font Awesome 6 Free Solid",
     text=char,
+    padding=1,
+    margin=0,
+    fontsize=fontsize,
     background=background,
     foreground=foreground,
+    center_aligned=True,
 )
 
-separator = lambda color: widget.Sep(
-    background=color,
-    foreground=color,
-)
+# Works only with qtile-extras, add **powerline in all widgets
 
-separator_background_color = functools.partial(separator, color=theme["background"])
-
-def open_nmd(qtile):
-    qtile.cmd_spawn('networkmanager_dmenu')
-
-def open_htop(qtile):
-    qtile.cmd_spawn('alacritty -e htop')
-
-def open_pacman(qtile):
-    qtile.cmd_spawn('alacritty -e sudo pacman -Syu')
+powerline = {
+    "decorations": [
+        PowerLineDecoration(path='forward_slash')
+    ]
+}
 
 
 screens = [
@@ -249,23 +102,36 @@ screens = [
         top=bar.Bar(
 
             [
-                # ------
-                widget.CurrentLayout(
-                    background=theme["fore"],
-                    foreground=theme["back"],
-                    fontsize=13
+                widget.Sep(
+                    background=theme["foreground"],
+                    foreground=theme["foreground"],
+                    padding=1,
                 ),
                 # ------
                 widget.TextBox(
-                    text = '',
-                    background = theme["BG1"],
-                    foreground = theme["fore"],
-                    padding = 0,
-                    fontsize = 26,
-                # center_aligned=True
+                    font="Font Awsome 6 Nerd Font",
+                    text=" ",
+                    fontsize=20,
+                    background=theme["foreground"],
+                    foreground=theme["background"],
+                    margin=10,
+                    padding=2,
+                    mouse_callbacks={
+                        'Button1': lazy.spawn([home + '/bin/sidebar'])
+                        },
+
                 ),
-                # -----
-                separator(color=theme["BG1"]),
+                # ------
+                widget.CurrentLayout(
+                    use_mask=True,
+                    font="Font Awesome 6 Free Solid",
+                     # scale=0.7,
+                    padding=5,
+                    background=theme["foreground"],
+                    foreground=theme["background"],
+                    fontsize=11,
+                    **powerline
+                ),
                 # -----
                 widget.GroupBox(
                     font="Font Awesome 6 Free Solid",
@@ -277,178 +143,130 @@ screens = [
                     block_highlight_text_color=theme["background"],
                     inactive=theme["black"],
                     background=theme["BG1"],
-                    borderwidth=0,
+                    borderwidth=1,
                     rounded=True,
                     padding_x=10,
                     padding_y=8,
-                    margin_x=0
+                    margin_x=2,
+                    disable_drag=True,
+                    center_aligned=True,
+                    hide_unused=True,
+                    # visible_groups=['1', '2', '3'],
+                    **powerline,
                     #margin=0
                 ),
                 # ------
-                widget.TextBox(
-                    text = '',
-                    background = theme["BG"],
-                    foreground = theme["BG1"],
-                    padding = 0,
-                    fontsize = 26,
-                    center_aligned=True
-                ),
-                # ------
                 widget.WindowName(
-                    fmt='  {}',
-                    font="JetBrainsMono NL Nerd Font",
+                    format= '{name}',
+                    font="FiraCode Nerd Font Regular",
                     fontsize=13,
                     background=theme["BG"],
-                    center_aligned=True
+                    foreground=theme["white"],
+                    center_aligned=True,
+                    max_chars=40,
                 ),
                 # ------
                 widget.Systray(
                     fontsize=12,
                     background=theme["BG"],
-                    center_aligned=True
-                ),
-                # ------
-                widget.TextBox(
-                    text = '',
-                    background = theme["BG"],
-                    foreground = theme["BG1"],
-                    padding = 0,
-                    fontsize = 26,
-                    center_aligned=True
-                ),
-                # ------
-                # icon("\uf1eb", background=theme["background"], foreground=theme["red"]),
-                widget.Net(
-                    interface="wlan0",
-                    format=" {down} ↓/↑{up}",
-                    prefix="k",
-                    background = theme["BG1"],
-                    foreground=theme["red"],
-                    font="JetBrainsMono NL Nerd Font",
-                    fontsize=14,
                     center_aligned=True,
+                    **powerline
                 ),
                 # ------
-                widget.TextBox(
-                    text = '',
-                    background = theme["BG1"],
-                    foreground = theme["BG2"],
-                    padding = 0,
-                    fontsize = 26,
-                    center_aligned=True
-                ),
-                # ------
-                icon("\uf021", foreground=theme["magenta"], background=theme["background"]),
+                icon("\uf021", foreground=theme["magenta"], background=theme["BG1"], fontsize=14,),
                 widget.CheckUpdates(
                     distro="Arch",
                     font="JetBrainsMono NL Nerd Font",
                     fontsize=14,
                     dislpay_format = '{updates}',
-                    no_update_string="Up To Date",
+                    no_update_string="Updates:0",
                     colour_no_updates=theme["white"],
-                    colour_have_updates=theme["red"],
-                    background=theme["BG2"],
+                    colour_have_updates=theme["magenta"],
+                    background=theme["BG1"],
                     foreground=theme["magenta"],
-                    center_aligned=True
+                    update_interval=10,
+                    padding=5,
+                    **powerline,
+                    mouse_callbacks={
+                        'Button1': lazy.spawn(f"alacritty -e sudo pacman -Syu")
+                        },
                 ),
-                # ------
+                # -----
                 widget.TextBox(
-                    text = '',
-                    background = theme["BG2"],
-                    foreground = theme["BG3"],
-                    padding = 0,
-                    fontsize = 26,
-                    center_aligned=True
-                ),
-                # ------
-                widget.Volume(
-                    foreground=theme["yellow"],
-                    background = theme["BG3"],
-                    font="JetBrainsMono NL Nerd Font",
-                    fmt='墳 {}',
-                    fontsize=14,
+                    font="Font Awsome 6 Nerd Font",
+                    text=" ",
+                    fontsize=16,
+                    foreground=theme["orange"],
+                    background=theme["BG2"],
+                    margin=3,
+                    padding=2,
                     center_aligned=True,
-                    update_interval = 0.2,
+                    mouse_callbacks={
+                        'Button1': lazy.spawn("nitrogen --set-zoom-fill --random"),
+                        'Button3': lazy.spawn([home + '/bin/ngen']),
+                        },
+                **powerline
                 ),
                 # ------
-                widget.TextBox(
-                    text = '',
-                    background = theme["BG3"],
-                    foreground = theme["BG4"],
-                    padding = 0,
-                    fontsize = 26,
-                    center_aligned=True
-                ),
-                # ------
-                widget.Backlight(
-                    backlight_name='intel_backlight',
-                    brightnessfile='brightness',
-                    max_brightness_file='max_brightness',
-                    background = theme["BG4"],
+                widget.Net(
+                    interface="wlan0",
+                    format=" {down}",
+                    background=theme["BG3"],
+                    prefix="k",
                     foreground=theme["cyan"],
                     font="JetBrainsMono NL Nerd Font",
-                    fmt=' {}',
                     fontsize=14,
-                    center_aligned=True
+                    padding=5,  # Adjust the padding as needed
+                    mouse_callbacks={'Button1': lazy.spawn(f"networkmanager_dmenu")},
+                    **powerline
                 ),
+
+                # widget.WiFiIcon(
+                #     interface="wlan0",
+                #     active_colour=theme["cyan"],
+                #     inactive_colour=theme["BG"],
+                #     foreground=theme["cyan"],
+                #     background = theme["BG3"],
+                #     font="JetBrainsMono NL Nerd Font",
+                #     fontsize=14,
+                #     wifi_arc=100,
+                #     expanded_timeout=None,
+                #     update_interval=1,
+                #     **powerline,
+                #     mouse_callbacks={
+                #         'Button1': lazy.spawn(f"networkmanager_dmenu")
+                #         },
+                #     ),
                 # ------
-                widget.TextBox(
-                    text = '',
-                    background = theme["BG4"],
-                    foreground = theme["BG5"],
-                    padding = 0,
-                    fontsize = 26,
-                    center_aligned=True
-                ),
-                # ------
-                widget.Battery(
+                widget.BatteryIcon(
+                    scale=1,
+                    theme_path='/home/shridal/.local/share/icons/Panel/',
                     update_interval=3,
-                    format = '{char} {percent:2.0%}',
-                    full_char = '',
-                    unknown_char = '?',
-                    empty_char = '',
-                    charge_char = '',
-                    discharge_char = '',
-                    center_aligned = True,
                     foreground=theme["green"],
-                    background=theme["BG5"],
-                    font="JetBrainsMono NL Nerd Font",
-                    fontsize= 14,
-                ),
+                    background=theme["BG4"],
+                    **powerline,
+                    ),
+
                 # ------
-                widget.TextBox(
-                    text = '',
-                    background = theme["BG5"],
-                    foreground = theme["BG6"],
-                    padding = 0,
-                    fontsize = 26,
-                    center_aligned=True
-                ),
-                # ------
-                icon("\uf017", foreground=theme["red"], background=theme["BG6"]),
+                icon("\uf017", foreground=theme["red"], background=theme["BG5"], fontsize=15,),
                 widget.Clock(
                     font="JetBrainsMono NL Nerd Font",
                     format="%I:%M %p",
-                    background=theme["BG6"],
-                    foreground=theme["fore"],
-                    fontsize= 15,
+                    background=theme["BG5"],
+                    foreground=theme["white"],
+                    fontsize= 16,
                     center_aligned=True
                 ),
-                # ------
             ],
             24,
-            # background=theme["background"]
-            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
+            background=theme["background"],
+            # margin=[8,8,0,8],
+            # border_width=[5, 5, 0, 5],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
     ),
 ]
-# Drag floating layouts.
-mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
-    Click([mod], "Button2", lazy.window.bring_to_front()),
-]
+
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
@@ -456,7 +274,6 @@ follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
 floating_layout = layout.Floating(
-
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
@@ -466,6 +283,9 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
+        Match(wm_class="kitty"),
+        Match(wm_class="pinentry-gtk-2"),
+        Match(wm_class="zoom"),
     ]
 
 )
@@ -489,10 +309,6 @@ wl_input_rules = None
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
 #wmname = "LG3D"
-wmname = "Qtile"
+wmname = "Elysium/Q-tile"
 
-@hook.subscribe.startup_once
-def start_once():
-    home = os.path.expanduser('~/.config/qtile/autostart.sh')
-    subprocess.Popen([home])
 

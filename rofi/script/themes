@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+
+## Copyright (C) 2020-2022 Aditya Shakya <adi1090x@gmail.com>
+## Everyone is permitted to copy and distribute copies of this file under GNU-GPL3
+
+CFGDIR="$HOME/.config"
+qtile="$CFGDIR/qtile/config.py"
+eww="$CFGDIR/eww/eww.scss"
+alacritty="$CFGDIR/alacritty/themes.yml"
+rofi_cmd="rofi -theme $CFGDIR/rofi/themes/themes.rasi"
+rofi="$CFGDIR/rofi/themes/colors.rasi"
+
+# Check if the source file exists
+if [ -f "$source_file" ]; then
+    # Copy the contents of the source file to the destination file
+    cat "$source_file" > "$destination_file"
+    echo "Contents of $source_file successfully copied to $destination_file."
+else
+    echo "Source file $source_file does not exist."
+fi
+
+# Themes
+default="   Default"
+theme_1="   Dracula"
+theme_2="   Midnight"
+theme_3="   Monokai"
+theme_4="   Tomorrow"
+theme_5="   One Dark"
+theme_6="   Nordic"
+theme_7="   Catppuccin"
+
+# Variable passed to rofi
+options="$default\n$theme_1\n$theme_2\n$theme_3\n$theme_4\n$theme_5\n$theme_6\n$theme_7"
+
+## Apply theme
+set_style() {
+	# apply color-scheme
+	selected_theme="$1"
+	notify-send -i ~/.config/dunst/images/hourglass.png -u low "QTile Theme" "Theme changing to $selected_theme"
+	sed -i "s/^theme = .*/theme = $selected_theme/" "$qtile"
+	sed -i "s|^@import \"themes/.*\";|@import \"themes/$selected_theme.scss\";|" "$eww"
+	sed -i "s/colors: .*/colors: $selected_theme/" "$alacritty"
+	cat "$CFGDIR/rofi/themes/colors/$selected_theme" > "$rofi"
+
+
+
+
+	# reload Q-tile
+	killall picom &
+	qtile cmd-obj -o cmd -f restart
+	sleep 2
+	picom --experimental-backends &
+	notify-send -i ~/.config/dunst/images/palette.png -u low "QTile Theme" "Theme changed to $selected_theme" &
+	paplay $HOME/.local/share/sounds/notification-2.ogg &
+}
+
+
+chosen="$(echo -e "$options" | $rofi_cmd -p "Available themes : (6+?)" -dmenu -selected-row 0)"
+case $chosen in
+    $default)
+        set_style "Dracula"
+        ;;
+    $theme_1)
+        set_style "Dracula"
+        ;;
+    $theme_2)
+        set_style "Midnight"
+        ;;
+    $theme_3)
+        set_style "Monokai"
+        ;;
+    $theme_4)
+        set_style "Tomorrow"
+        ;;
+    $theme_5)
+        set_style "One_dark"
+        ;;
+    $theme_6)
+        set_style "Nordic"
+        ;;
+    $theme_7)
+        set_style "Catppuccin"
+        ;;
+esac

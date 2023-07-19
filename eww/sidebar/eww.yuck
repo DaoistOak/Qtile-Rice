@@ -1,0 +1,173 @@
+;; Small Calender ;;
+(defwidget smol_calendar []
+      (box :orientation "v" :space-evenly "false"
+        (box :class "number_day" {number_day})
+        (box :class "month" {month})))
+    (defwidget net_side []
+      (box :orientation "v" :space-evenly "false")
+      )
+
+;; Weather_Side ;;
+
+(defwidget weather_side []
+    (box        :orientation "h"
+                :space-evenly "false"
+    (box        :class "weather-icon-side"
+                :style "color: ${weather-hex}" {weather-icon})
+    (box        :class "weather-info-side"
+                :orientation "v"
+                :space-evenly "false"
+    (box        :class "temperature-side" "${temperature}  ")
+    (box        :class "weather-stat-side" {weather-stat-side}))))
+
+;; Net_Side ;;
+
+(defwidget net_side []
+    (eventbox   :onhover "${eww} update wifi-rev=true"
+                :onhoverlost "${eww} update wifi-rev=false"
+    (box        :vexpand "false"
+                :hexpand "false"
+                :space-evenly "false"
+    (button     :class "net_side"
+                :onclick "networkmanager_dmenu"
+                :wrap "false"
+                :limit-width 12
+                :style "color: ${wifi-color};" wifi-icon)
+	(revealer   :transition "slideright"
+                :reveal wifi-rev
+                :duration "350ms"
+	(label      :class "wifi-name"
+                :text wifi-name
+                :orientation "h")))))
+
+
+
+;; Player Side ;;
+
+(defwidget player_side []
+    (box        :orientation "h"
+                :space-evenly "false"
+    (box        :class "musicart-side"
+                :style "background-image: url('qtile cmd-obj -o cmd -f shutdown${cover}');" {art})
+    (box        :class "musicstuff-side"
+                :orientation "v"
+                :space-evenly "false"
+    (box        :class "musicinfo-side" "${music3}${title}")
+    (box        :orientation "h"
+                :halign "center"
+                :class "musicbtn-side"
+                :space-evenly "false"
+    (button     :onclick "playerctl previous" "")
+    (button     :class "pause-play-side"
+                :onclick "playerctl play-pause" music_status)
+    (button     :onclick "playerctl next" "")))))
+
+;; Time Side ;;
+
+    (defwidget time_side []
+    (box        :orientation "v"
+                :space-evenly "false"
+    (button     :onclick "$HOME/.config/eww/scripts/pop calendar"
+    (box        :orientation "h"
+                :class "time-side"
+                :space-evenly "true"
+    (box        :class "hour-side" {hour})
+    (box        :class "minute-side" {min})))
+    (box        :class "day-side" {day})))
+
+
+(defwidget calender []
+    (box        :class "cal"
+                :orientation "v"
+    (box        :class "cal-in"
+    (calendar   :class "cal"))))
+
+
+;; Sliders Side ;;
+
+(defwidget sliders_side []
+    (box        :orientation "v"
+                :space-evenly "false"
+                :class "sliders-side"
+    (box        :orientation "h"
+                :class "slider-vol-side"
+                :space-evenly "false"
+    (box        :class "label-vol-side" "")
+          (scale :min 0 :max 101 :value {volume} :onchange "pamixer --set-volume {}"))
+    (box        :orientation "h"
+                :class "slider-bright-side"
+                :space-evenly "false"
+    (box        :class "label-bright-side" "")
+          (scale :min 0 :max 101 :value {bright} :onchange "brightnessctl s {}%"))
+    (box        :orientation "h"
+                :class "slider-ram-side"
+                :space-evenly "false"
+    (box        :class "label-ram-side" "")
+          (scale :min 0 :active "false" :max 101 :value {ram-used}))
+    (box        :orientation "h"
+                :class "slider-battery-side"
+                :space-evenly "false"
+    (box        :class "label-battery-side" {bat-icon})
+          (scale :min 0 :active "false" :max 101 :value {battery-remaining}))))
+
+;; SYS Side ;;
+
+(defwidget sys_side []
+    (box        :orientation "v"
+                :space-evenly "false"
+    (button     :class "search-side"
+                :onclick "~/.config/rofi/script/launcher" "  Search...")
+    (box        :orientation "h"
+                :halign "center"
+                :class "sysbtn"
+                :space-evenly "true"
+    (button     :class "shutdown-side"
+                :onclick "systemctl shutdown"
+                :timeout "60s" "")
+    (button     :class "reboot-side"
+                :onclick "systemctl reboot"
+                :timeout "60s" "")
+    (button     :class "lock-side"
+                :onclick "~/.config/rofi/script/lockscreen"
+                :timeout "60s" "")
+    (button     :class "suspend-side"
+                :onclick "~/.config/rofi/script/suspend"
+                :timeout "60s" "")
+    (button     :class "logout-side"
+                :onclick "qtile cmd-obj -o cmd -f shutdown"
+                :timeout "60s" ""))))
+
+
+;; Sidebar stuff
+
+(defwindow smol_calendar
+			    :geometry (geometry :x "8px" :y "32px" :width "80px" :height "80px")
+(smol_calendar))
+
+(defwindow weather_side
+			    :geometry (geometry :x "95px" :y "32px" :width "215px" :height "80px")
+(weather_side))
+
+(defwindow net_side
+			    :geometry (geometry :x "8px" :y "120px" :width "300px" :height "42px")
+(net_side))
+
+(defwindow time_side
+			    :geometry (geometry :x "8px" :y "171px" :width "300px" :height "100px")
+(time_side))
+
+(defwindow calendar
+                :geometry (geometry :x "316px" :y "171px" :width "300px" :height "180px")
+(calendar))
+
+(defwindow player_side
+			    :geometry (geometry :x "8px" :y "279px" :width "300px" :height "120px")
+(player_side))
+
+(defwindow sliders_side
+			    :geometry (geometry :x "8px" :y "407px" :width "300px" :height "200px")
+(sliders_side))
+
+(defwindow sys_side
+			    :geometry (geometry :x "8px" :y "615px" :width "300px" :height "145px")
+(sys_side))

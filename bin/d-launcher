@@ -1,0 +1,9 @@
+#!/bin/sh
+dmenu_run \
+    -p "Run:" \
+    -nb "#282a36" \
+    -nf "#f8f8f2" \
+    -sb "#bd93f9" \
+    -sf "#f8f8f2" \
+    -fn "monospace:size=12" &
+paplay $HOME/.local/share/sounds/notification-3.ogg &

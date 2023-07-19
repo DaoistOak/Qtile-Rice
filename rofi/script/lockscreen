@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+playerctl pause &
+pulsemixer --toggle-mute &
+betterlockscreen -l

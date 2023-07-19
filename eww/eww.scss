@@ -1,0 +1,693 @@
+@import "themes/Dracula.scss";
+* {
+  all: unset;
+  font-family: "JetBrainsMono NL Nerd Font", monospace;
+}
+
+window {
+  background-color: $background;
+  color: $foreground;
+  font-family: Museo Sans;
+}
+
+button {
+  all: unset;
+  background-color: $background;
+  padding: 10px;
+}
+
+
+// Start's From Here
+// Calander-Small
+
+.number_day {
+  padding-top: 10px;
+  font-size: 35px;
+  color: $red;
+}
+.month {
+  font-weight: bold;
+}
+
+// Weather-Side
+
+.weather-icon-side {
+  font-size: 45px;
+  color: $foreground;
+  font-family: Iosevka;
+  margin: 5px 30px 5px 30px;
+}
+.weather-stat-side {
+  font-size: 16px;
+  padding-top: 6px;
+  padding-right: 5px;
+  padding-bottom: 0px;
+  font-weight: bold;
+  color: $cyan;
+}
+.temperature-side {
+  font-size: 16px;
+  font-weight: 900;
+  padding-top: 15px;
+  padding-left: 10px;
+  color: $blue;
+}
+// Net-Side
+.net_side{
+  margin: -3px 0px -3px 4px;
+  font-size: 18px;
+  color: $red;
+}
+.wifi-net{
+  margin: 2px 0px 2px 0px;
+  color: $red;
+}
+
+// Time-Small
+
+.time-side {
+  margin: -15px 65px -15px 65px;
+  font-size: 60px;
+}
+.minute-side {
+  color: $pink;
+}
+.day-side {
+  font-size: 16px;
+  font-weight: bold;
+  color: $purple;
+}
+
+// Calendar
+
+.cal {
+  background-color: $background;
+  font-family: JetBrainsMono Nerd Font;
+  font-size: 18px;
+  font-weight: normal;
+
+.cal-in {
+    padding: 100px 10px 0px 10px;
+    color: $foreground;
+
+.cal {
+     &.highlight {
+          padding: 20px;
+      }
+
+      padding: 5px 5px 5px 5px;
+      margin: 10px 10px 10px 10px;
+    }
+  }
+}
+
+.calender {
+    color: $foreground;
+}
+.calendar:selected {
+  color: $red;
+}
+
+.calendar.header {
+color: $pink;
+font-weight: bold;
+}
+
+.calendar.button {
+color: $pink;
+}
+
+.calendar.highlight {
+color: $purple;
+font-weight: bold;
+}
+
+.calendar:indeterminate {
+color: $white;
+}
+
+
+// Music-side
+
+.musicart-side {
+  background-size: 92px;
+  min-height: 90px;
+  min-width: 90px;
+  margin: 15px 5px 15px 15px;
+  border-radius: 6px;
+}
+.musicinfo-side {
+  font-size: 15px;
+  margin-top: 32px;
+  font-weight: bold;
+  border-radius: 10px;
+  min-width: 40px;
+}
+.musicbtn-side {
+  font-family: Iosevka Nerd Font;
+  padding-left: 15px;
+  padding-right: 6px;
+  padding-top: 8px;
+  padding-bottom: 5px;
+}
+.musicbtn-side button {
+  font-family: Iosevka Nerd Font;
+  font-size: 18px;
+  padding-right: 30px;
+}
+.musicbtn-side button:hover {
+  color: $cyan;
+}
+.pause-play-side {
+  color: $foreground;
+  font-size: 10px;
+  font-weight: bold;
+}
+.pause-play-side:hover {
+  color: $foreground;
+}
+.sliders-side slider {
+  all: unset;
+  color: $foreground;
+}
+.slider-vol-side {
+  margin-top: 10px;
+  color: $foreground;
+}
+.slider-vol-side scale trough highlight {
+	all: unset;
+	background-color: $magenta;
+	color: $foreground;
+	border-radius: 10px;
+}
+.slider-bright-side scale trough highlight {
+  all: unset;
+	background-color: $cyan;
+	color: $foreground;
+	border-radius: 10px;
+}
+.slider-ram-side scale trough highlight {
+  all: unset;
+	background-color: $pink;
+	color: $foreground;
+	border-radius: 10px;
+}
+.slider-battery-side scale trough highlight {
+  all: unset;
+	background-color: $green;
+	color: $foreground;
+	border-radius: 10px;
+}
+.slider-vol-side scale trough {
+	all: unset;
+	background-color: $foreground;
+	border-radius: 50px;
+	min-height: 5px;
+  min-width: 170px;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+.slider-bright-side scale trough {
+	all: unset;
+	background-color: $foreground;
+	border-radius: 50px;
+	min-height: 5px;
+  min-width: 170px;
+  margin-top: 10px;
+  margin-left: 16px;
+}
+.slider-ram-side scale trough {
+	all: unset;
+	background-color: $foreground;
+	border-radius: 50px;
+	min-height: 5px;
+  min-width: 170px;
+  margin-top: 10px;
+  margin-left: 17px;
+}
+.slider-battery-side scale trough {
+	all: unset;
+	background-color: $foreground;
+	border-radius: 50px;
+	min-height: 5px;
+  min-width: 170px;
+  margin-top: 10px;
+  margin-left: 13px;
+}
+
+.label-battery-side, .label-bright-side, .label-ram-side, .label-vol-side{
+  margin-top: 8px;
+  font-family: Iosevka;
+  margin-left: 35px;
+  font-size: 25px;
+}
+.label-vol-side {
+  margin-left: 37px;
+  margin-right: 0px;
+  color: $magenta;
+}
+.label-bright-side {
+  margin-right: 4px;
+  color: $cyan;
+}
+.label-ram-side {
+  font-size: 30px;
+  color: $pink;
+}
+.label-battery-side {
+  font-size: 18px;
+  color: $green;
+}
+
+// Power-Side
+.search-side {
+  border-radius: 12px;
+  background-color: $background;
+  margin: 20px 30px 20px 30px;
+}
+.search-side:hover {
+  color: $foreground;
+}
+.sysbtn button {
+  font-size: 30px;
+}
+.shutdown-side ~ button:hover {
+  color: $cyan;
+}
+.shutdown-side{
+  color: $red;
+}
+.shutdown-side:hover{
+  color: $green;
+}
+.reboot-side{
+  color: $green;
+}
+.lock-side{
+  color: $blue;
+}
+.suspend-side{
+  color: $pink;
+}
+.logout-side{
+  color: $orange;
+}
+
+// Power-Full
+
+.search-full {
+  font-size: 45px;
+  margin-right: 20px;
+}
+.search-full:hover {
+  color: $cyan;
+}
+.power-full {
+  font-size: 45px;
+  color: $red;
+}
+.power-full:hover {
+  color: $cyan;
+}
+.reboot-full {
+  font-size: 45px;
+  color: $green
+}
+.reboot-full:hover {
+  color: $cyan
+}
+.lock-full {
+  font-size: 45px;
+  color: $purple
+}
+.lock-full:hover {
+  color: $cyan
+}
+.suspend-full {
+  font-size: 45px;
+  color: $pink
+}
+.suspend-full:hover {
+  color: $cyan
+}
+.logout-full {
+  font-size: 45px;
+  color: $orange
+}
+.logout-full:hover {
+  color: $cyan
+}
+
+// Profile
+
+.pfp {
+  background-image: url("/home/shridal/Pictures/300.jpg");
+  background-repeat: no-repeat;
+  background-size: 200px;
+  background-position: center;
+  min-height: 200px;
+  min-width: 200px;
+  margin: 40px 30px 10px 50px;
+  border-radius: 500px;
+}
+.pfptxt {
+  margin-top: 30px;
+  color: $red;
+  font-size: 32px;
+}
+.subpfptxt {
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+.cava {
+}
+// Weather
+
+.weather-icon {
+  font-size: 120px;
+  margin: 0px 0px 0px 40px;
+  font-family: Iosevka;
+  color: $purple;
+}
+.weather-stat {
+  font-size: 25px;
+  padding-top: 20px;
+  padding-bottom: 5px;
+  font-weight: bold;
+  color: $pink;
+}
+.temperature {
+  color: $blue;
+  font-size: 38px;
+  font-weight: 900;
+}
+.weather-quote {
+  margin: 5px 10px 10px 10px;
+  font-size: 14px;
+}
+.weather-quote-head, .weather-quote-tail {
+  font-size: 14px;
+}
+
+// Files
+
+.l1, .l2, .l3, .l4, .l5, .l6 {
+  font-size: 24px;
+  font-weight: 600;
+}
+.home-dir {
+  margin: 8px;
+}
+.l1, .l6 {
+ color: $blue;
+}
+.l2, .l5 {
+ color: $pink;
+}
+.l3, .l4 {
+ color: $green;
+}
+.l1:hover, .l3:hover, .l5:hover {
+  color: $cyan;
+}
+.l2:hover, .l4:hover, .l6:hover {
+  color: $magenta;
+}
+
+// Quote
+
+.quote-main {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-left: 20px;
+  color: $foreground;
+}
+.quote-author {
+  font-size: 14px;
+  margin-right: 30px;
+  margin-bottom: 10px;
+  color: $red;
+}
+.quote-tail {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  color: $pink;
+}
+
+// Screenshot
+
+.screenshot-icon {
+  color: $orange;
+  font-size: 45px;
+  margin-right: 10px;
+  font-family: Iosevka;
+}
+.screenshot-icon:hover {
+  color: $cyan;
+}
+
+// VPN
+
+.vpn-icon {
+  font-size: 45px;
+  margin-right: 5px;
+  color: $red;
+}
+.vpn-icon:hover {
+ color: $green;
+}
+
+// DO NOT DISTURB
+
+.disturb-icon {
+  font-size: 45px;
+  color: $purple;
+}
+.disturb-icon:hover {
+ color: $orange;
+}
+
+// Dashboard Background
+.dashboard-background {
+  background-image: url("/home/shridal/Wallpaper/Dashboard/Dashboard.jpg");
+}
+
+
+
+// // //
+
+
+.music_win {
+    background-color: #0f0f17;
+	border-radius: 16px;
+}
+  .music_cover_art {
+	background-size: cover;
+	background-position: center;
+	min-height: 100px;
+    box-shadow: 5px 5px 5px 5px #06060b;
+	min-width: 170px;
+	margin: 20px;
+	border-radius: 20px;
+}
+
+.music {
+	color: #a1bdce;
+	font-size : 20px;
+	font-weight : bold;
+	margin : 20px 0px 0px -15px;
+}
+
+.music_artist {
+	color: #bbc5d7;
+	font-size : 16px;
+	font-weight : normal;
+	margin : 0px 0px 0px 0px;
+}
+
+.music_btn_prev, .music_btn_play, .music_btn_next {
+	font-family: Iosevka Nerd Font;
+}
+.music_btn_prev {
+	color: #bbc5d7;
+	font-size : 32px;
+	font-weight : normal;
+	margin: 0px 0px 0px 0px;
+}
+.music_btn_play {
+	color: #a1bdce;
+	font-size : 48px;
+	font-weight : normal;
+	margin: 0px 0px 0px 0px;
+}
+.music_btn_next {
+	color: #bbc5d7;
+	font-size : 32px;
+	font-weight : normal;
+	margin: 0px 0px 0px 0px;
+}
+
+.music_bar scale trough highlight {
+	all: unset;
+    background-image: linear-gradient(to right, #afcee0 30%, #a1bdce 50%, #77a5bf 100% *50);
+	border-radius: 24px;
+}
+.music_bar scale trough {
+	all: unset;
+	background-color: #232232;
+    box-shadow: 0 6px 5px 2px #06060b;
+	border-radius: 24px;
+	min-height: 13px;
+	min-width: 190px;
+	margin : -10px 10px 20px 0px;
+}
+// // //
+.hddbox {
+	background-color: #3A404C;
+	border-radius: 10px;
+	margin : 15px;
+}
+.hddicon {
+	color: #81A1C1;
+	font-family: Iosevka Nerd Font;
+	font-size : 70px;
+	font-weight : normal;
+	margin : 25px 20px 25px 40px;
+}
+.hdd_label {
+	color: #E5E9F0;
+	font-size : 48px;
+	font-weight : bold;
+	margin : 0px 0px 0px 15px;
+}
+.fs_sep {
+	color: #2E3440;
+	font-size : 36px;
+	font-weight : bold;
+}
+
+.iconfolder1, .iconfolder2, .iconfolder3, .iconfolder4, .iconfolder5, .iconfolder6  {
+	font-family: Iosevka Nerd Font;
+	font-size : 32px;
+	font-weight : normal;
+	margin : 0px 0px 0px 75px;
+}
+.iconfolder1 {
+	color: #BF616A;
+}
+.iconfolder2 {
+	color: #A3BE8C;
+}
+.iconfolder3 {
+	color: #EBCB8B;
+}
+.iconfolder4 {
+	color: #81A1C1;
+}
+.iconfolder5 {
+	color: #B48EAD;
+}
+.iconfolder6 {
+	color: #88C0D0;
+}
+
+.label_folder1, .label_folder2, .label_folder3, .label_folder4, .label_folder5, .label_folder6  {
+	font-size : 22px;
+	font-weight : normal;
+	margin : 0px 0px 0px 30px;
+}
+.label_folder1 {
+	color: #BF616A;
+}
+.label_folder2 {
+	color: #A3BE8C;
+}
+.label_folder3 {
+	color: #EBCB8B;
+}
+.label_folder4 {
+	color: #81A1C1;
+}
+.label_folder5 {
+	color: #B48EAD;
+}
+.label_folder6 {
+	color: #88C0D0;
+}
+
+
+.player-close{
+  font-size: 20px;
+  margin: 0px 0px 0px 280px;
+  padding: 0px 0px 0px 0px;
+  color: $background;
+}
+
+.player-close:hover {
+  color: $red;
+}
+.player-up{
+  font-size: 30px;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  color: $white;
+  font-weight: bold;
+}
+
+
+.player-up:hover {
+  color: $cyan;
+}
+
+.musicart {
+  background-size: 260px;
+  min-height: 260px;
+  min-width: 260px;
+  margin: 0px 20px 10px 20px;
+  border-radius: 10px;
+}
+
+.musictitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+
+.musicartist {
+  font-size: 15px;
+  margin-bottom: 0px;
+}
+
+.musicbtn button {
+  font-size: 30px;
+  padding-left: 20px;
+}
+
+.musicbtn button:hover {
+  color: $cyan;
+}
+
+.music-slider scale trough {
+	all: unset;
+	background-color: $foreground;
+	border-radius: 100px;
+	min-height: 8px;
+  min-width: 240px;
+  margin-bottom: 0px;
+}
+
+.music-slider scale trough highlight {
+	all: unset;
+	background-color: $red;
+	color: $background;
+	border-radius: 12px;
+}
+
+.music-slider slider {
+  all: unset;
+  color: $foreground;
+}

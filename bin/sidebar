@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+DIR="/usr/bin"
+TOGGLE=/tmp/.toggle
+echo $dis
+if [ ! -e $TOGGLE ]; then
+    touch $TOGGLE
+    DISPLAY=$DISPLAY "$DIR/eww" open-many weather_side time_side smol_calendar player_side sys_side sliders_side net_side
+else
+    rm $TOGGLE
+    killall eww
+    DISPLAY=$DISPLAY "$DIR/eww" daemon
+fi
+

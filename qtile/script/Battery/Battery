@@ -1,0 +1,38 @@
+#!/usr/bin/env sh
+printf 'script started' | systemd-cat -t check-battery #write to log when script is called
+Binfo=`acpi -b`
+bat=`echo $Binfo | grep Discharging` && `echo $BATTINFO | cut -f 5 -d " "`
+case $bat in
+	< 10%)
+			/usr/bin/notify-send -u critical "Battery Low" "$Binfo" -i ~/.local/share/icons/Deepin2022-Dark/16/panel/battery-empty.svg
+			play
+        ;;
+    > 99% )
+
+        ;;
+    $lock)
+        betterlockscreen --lock
+        ;;
+    $suspend)
+		ans=$(get_confirmation)
+		if [[ $ans == "yes" ]] || [[ $ans == "YES" ]] || [[ $ans == "y" ]]; then
+			mpc -q pause
+			pulsemixer --toggle-mute
+			betterlockscreen --suspend
+		elif [[ $ans == "no" ]] || [[ $ans == "NO" ]] || [[ $ans == "n" ]]; then
+			exit
+        else
+			show_msg
+        fi
+        ;;
+    $logout)
+		ans=$(get_confirmation)
+		if [[ $ans == "yes" ]] || [[ $ans == "YES" ]] || [[ $ans == "y" ]]; then
+			qtile cmd-obj -o cmd -f shutdown
+		elif [[ $ans == "no" ]] || [[ $ans == "NO" ]] || [[ $ans == "n" ]]; then
+			exit
+        else
+			show_msg
+        fi
+        ;;
+esac

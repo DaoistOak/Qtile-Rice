@@ -1,0 +1,5 @@
+#!/bin/bash
+
+notify-send -i ~/.config/dunst/images/heart.png "Health" "Look after your eyes!"
+paplay $HOME/.local/share/sounds/notification-2.ogg &
+#<br>Look at something at a distance of 20 feet for a while or take a break!"

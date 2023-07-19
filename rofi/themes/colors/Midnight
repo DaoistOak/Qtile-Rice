@@ -1,0 +1,26 @@
+* {
+    background:         #000000;
+    foreground:         #ffffff;
+    selector:           #ffffff;
+    selected:               #00FFFF;
+    off:                #101010;
+    white:              #FFFFFF;
+    black:              #191970;
+    purple:             #BD93F9;
+    orange:             #FFB86C;
+    red:                #FF0000;
+    green:              #00FF00;
+    yellow:             #FFFF00;
+    blue:               #0000FF;
+    magenta:            #FF00FF;
+    selected:               #00FFFF;
+    pink:               #FF69B4;
+    selector:                 #ffffff;
+    BG:                 #000000;
+    BG1:                #080808;
+    off:                #101010;
+    BG3:                #181818;
+    BG4:                #202020;
+    BG5:                #282828;
+    BG6:                #303030;
+}

@@ -1,0 +1,25 @@
+
+* {
+    background:         #1e2127;
+    foreground:         #abb2bf;
+    selector:                 #61afef;
+    selected:               #56b6c2;
+    off:                #2a2e36;
+    black:              #5c6370;
+    red:                #e06c75;
+    green:              #98c379;
+    yellow:             #d19a66;
+    blue:               #61afef;
+    orange:             #de935f;
+    magenta:            #c678dd;
+    selected:               #56b6c2;
+    white:              #828791;
+    selector:                 #61afef;
+    BG:                 #1e2127;
+    BG1:                #24282e;
+    off:                #2a2e36;
+    BG3:                #30333f;
+    BG4:                #363846;
+    BG5:                #3c3e4e;
+    BG6:                #424556;
+}

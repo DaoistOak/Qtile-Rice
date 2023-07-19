@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+DIR="$HOME/.config/qtile/script/Battery"
+while :
+do
+    sh $DIR/Low
+    sh $DIR/Full
+	sleep 3
+done

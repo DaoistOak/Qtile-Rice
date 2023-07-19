@@ -14,9 +14,9 @@ window {
     transparency:                   "real";
     background-color:               @background;
     text-color:                     @foreground;
-    border:                  		1px;
-    border-color:                  	@selected;
-    border-radius:                  0px;
+    border:                  		0px;
+    border-color:                  	@selector;
+    border-radius:                  10px;
     width:                          400px;
     height:                         420px;
     location:                       center;
@@ -32,18 +32,20 @@ prompt {
 	background-color: 				@background;
 	text-color: 					@foreground;
     border:                  		0px 0px 1px 0px;
-    border-color:                  	@selected;
+    border-color:                  	@selector;
     border-radius:                  0px;
 }
 
 textbox-prompt-colon {
 	expand: 						false;
 	str: 							"直";
-    border-radius:                  0px;
-    background-color:               @highlight;
-    text-color:                     @background;
-    padding:    					6px 10px 6px 10px;
-	font:							"Iosevka Nerd Font 10";
+    spacing: 						1;
+    border-radius: 					3px;
+    border: 						2;
+    background-color:             	@selector;
+    text-color: 					@background;
+    padding:    					6px 16px 6px 10px;
+    font:                           "JetBrainsMono NL Nerd Font 12";
 }
 
 entry {
@@ -51,7 +53,7 @@ entry {
     text-color:                     @foreground;
     border:                  		0px 0px 1px 0px;
     border-radius:                  0px;
-    border-color:                  	@selected;
+    border-color:                  	@selector;
     placeholder-color:              @foreground;
     placeholder:                    "";
     expand:                         true;
@@ -99,7 +101,7 @@ element {
     background-color:               @background;
     text-color:                     @foreground;
     orientation:                    horizontal;
-    border-radius:                  0px;
+    border-radius:                  10px;
     padding:                        5px;
 }
 
@@ -123,7 +125,7 @@ element-text {
 
 element normal.urgent,
 element alternate.urgent {
-    background-color:               @urgent;
+    background-color:               @foreground;
     text-color:                     @foreground;
     border-radius:                  0px;
 }
@@ -135,15 +137,15 @@ element alternate.active {
 }
 
 element selected {
-    background-color:               @selected;
+    background-color:               @selector;
     text-color:                     @background;
     border:                  		0px;
     border-radius:                  0px;
-    border-color:                  	@selected;
+    border-color:                  	@selector;
 }
 
 element selected.urgent {
-    background-color:               @urgent;
+    background-color:               @foreground;
     text-color:                     @foreground;
 }
 

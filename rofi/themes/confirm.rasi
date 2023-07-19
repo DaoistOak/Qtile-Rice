@@ -1,27 +1,147 @@
-/* Copyright (C) 2020-2022 Aditya Shakya <adi1090x@gmail.com> */
-/* Everyone is permitted to copy and distribute copies of this file under GNU-GPL3 */
+/**
+ * Copyright (C) 2020-2023 Aditya Shakya <adi1090x@gmail.com>
+ **/
 
-@import "font.rasi"
-@import "colors.rasi"
-
-* {
-    background-color:       @background;
-    text-color:             @foreground;
+/*****----- Configuration -----*****/
+configuration {
+    show-icons:                 false;
 }
 
+/*****----- Global Properties -----*****/
+@import                          "colors.rasi"
+@import                          "font.rasi"
+
+/*
+USE_ICON=YES
+*/
+
+/*****----- Main Window -----*****/
 window {
-    width:      			200px;
-    padding:    			20px;
-    border:					1px;
-    border-radius:          0px;
-    border-color:           @selected;
-    location:               center;
-    x-offset:               0;
-    y-offset:               -4%;
+    transparency:                "real";
+    location:                    center;
+    anchor:                      center;
+    fullscreen:                  false;
+    width:                       300px;
+    x-offset:                    0px;
+    y-offset:                    0px;
+    margin:                      0px;
+    padding:                     0px;
+    border:                      0px solid;
+    border-radius:               10px;
+    border-color:                @selector;
+    cursor:                      "default";
+    background-color:            @background;
 }
 
-entry {
-    expand: 				true;
-    width: 					150px;
-    text-color:				@selected;
+/*****----- Main Box -----*****/
+mainbox {
+    enabled:                     true;
+    spacing:                     10px;
+    margin:                      0px;
+    padding:                     30px;
+    background-color:            transparent;
+    children:                    [ "message", "listview" ];
+}
+
+/*****----- Inputbar -----*****/
+inputbar {
+    enabled:                     true;
+    spacing:                     10px;
+    padding:                     0px;
+    border:                      0px;
+    border-radius:               0px;
+    border-color:                @selector;
+    background-color:            transparent;
+    text-color:                  @foreground;
+    children:                    [ "textbox-prompt-colon", "prompt"];
+}
+
+textbox-prompt-colon {
+    enabled:                     true;
+    expand:                      false;
+    str:                         "";
+    padding:                     10px 14px;
+    border-radius:               100%;
+    background-color:            @selected;
+    text-color:                  @background;
+}
+prompt {
+    enabled:                     true;
+    padding:                     10px;
+    border-radius:               20px;
+    background-color:            @selector;
+    text-color:                  @background;
+}
+
+/*****----- Message -----*****/
+message {
+    enabled:                     true;
+    margin:                      0px;
+    padding:                     10px;
+    border:                      0px solid;
+    border-radius:               8px;
+    border-color:                @selector;
+    background-color:            @background;
+    text-color:                  @foreground;
+}
+textbox {
+    background-color:            inherit;
+    text-color:                  inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+}
+
+/*****----- Listview -----*****/
+listview {
+    enabled:                     true;
+    columns:                     2;
+    lines:                       1;
+    cycle:                       true;
+    scrollbar:                   false;
+    layout:                      vertical;
+
+    spacing:                     10px;
+    background-color:            transparent;
+    cursor:                      "default";
+}
+
+/*****----- Elements -----*****/
+element {
+    enabled:                     true;
+    padding:                     5px 10px;
+    border:                      0px solid;
+    border-radius:               8px;
+    border-color:                @selector;
+    background-color:            transparent;
+    text-color:                  @foreground;
+    cursor:                      pointer;
+}
+element-text {
+    background-color:            transparent;
+    text-color:                  inherit;
+    cursor:                      inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+}
+
+element normal.normal,
+element alternate.normal {
+    background-color:            @background;
+    text-color:                  @foreground;
+}
+element normal.urgent,
+element alternate.urgent,
+element selected.active {
+    background-color:            @selector;
+    text-color:                  @background;
+}
+element normal.active,
+element alternate.active,
+element selected.urgent {
+    background-color:            @selected;
+    text-color:                  @background;
+}
+element selected.normal {
+    background-color:            @selector;
+    text-color:                  @background;
 }

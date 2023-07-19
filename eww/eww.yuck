@@ -1,0 +1,128 @@
+(include "./sidebar/eww.yuck")
+(include "./dashboard/eww.yuck")
+
+
+
+(defwidget cava []
+    (box        :class "cava"
+                :orientation "v"
+                :space-evenly "true"))
+
+(defwindow cava
+			    :geometry (geometry :x "0px" :y "24px" :width "100%" :height "100%")
+      							(cava))
+
+
+
+
+    ;; folders
+(defwidget folders []
+	(box :class "genwin" :orientation "v" :space-evenly "false" :vexpand "false" :hexpand "false"
+		(box :class "hddbox" :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
+			(box :space-evenly "false" :vexpand "false" :hexpand "false"
+				(button :class "hddicon" :onclick "scripts/open_apps --fm" "")
+				(label :class "fs_sep" :text "|"))
+			(box :space-evenly "false" :vexpand "false" :hexpand "false"
+				(label :class "hdd_label" :wrap "true" :limit-width 25 :text FREE)))
+		(box :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
+			(button :class "iconfolder1" :onclick "scripts/open_folders --docs" "")
+			(button :class "label_folder1" :onclick "scripts/open_folders --docs" "Documents"))
+		(box :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
+			(button :class "iconfolder2" :onclick "scripts/open_folders --dl" "")
+			(button :class "label_folder2" :onclick "scripts/open_folders --dl" "Downloads"))
+		(box :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
+			(button :class "iconfolder3" :onclick "scripts/open_folders --music" "")
+			(button :class "label_folder3" :onclick "scripts/open_folders --music" "Music"))
+		(box :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
+			(button :class "iconfolder4" :onclick "scripts/open_folders --pics" "")
+			(button :class "label_folder4" :onclick "scripts/open_folders --pics" "Pictures"))
+		(box :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
+			(button :class "iconfolder5" :onclick "scripts/open_folders --cfg" "ﮛ")
+			(button :class "label_folder5" :onclick "scripts/open_folders --cfg" "~/.config"))
+		(box :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
+			(button :class "iconfolder6" :onclick "scripts/open_folders --local" "ﮛ")
+			(button :class "label_folder6" :onclick "scripts/open_folders --local" "~/.local"))))
+
+;; folders
+(defwindow folders
+        :geometry (geometry :x "888px" :y "229px" :width "200px" :height "415px")
+                            (folders))
+
+
+  (defpoll FREE :interval "5s" `df -h / | awk '{print $4}' | tail -n 1 | sed 's/G/GB/'`)
+    ;; Music vars
+    (defpoll music :interval "1s"  "playerctl metadata --format '{{ artist }} - {{ title }}'")
+    (defpoll music2 :interval "1s"  "~/.config/eww/scripts/getartist")
+    (defpoll music3 :interval "1s"  "~/.config/eww/scripts/gettitle")
+    (defpoll art :interval "1s"  "~/.config/eww/scripts/getart")
+    (defpoll volume :interval "16ms"  "~/.config/eww/scripts/getvol")
+    (defpoll bright :interval "16ms"  "~/.config/eww/scripts/getbri")
+    (defpoll cover :interval "1s"  "~/.config/eww/scripts/echoart")
+    (defpoll title :interval "1s"  "~/.config/eww/scripts/echotitle")
+    (defpoll artist :interval "1s"  "~/.config/eww/scripts/echotitle")
+    (defpoll musicpos :interval "16ms"  "~/.config/eww/scripts/musicpos")
+    (defpoll music_status :interval "1s" "~/.config/eww/scripts/musictoggle")
+    ;; Date vars
+    (defpoll number_day :interval "5h"  "date \"+%d\"")
+    (defpoll month :interval "10h"  "date \"+%b\"")
+    (defpoll min :interval "10s"  "date \"+%M\"")
+    (defpoll hour :interval "10s"  "date \"+%H\"")
+    (defpoll day :interval "10h"  "~/.config/eww/scripts/getday")
+    (defpoll month_full :interval "15h"  "date \"+%B\"")
+    (defpoll year_full :interval "15h"  "date \"+%Y\"")
+
+    ;; Weather vars
+    (defpoll weather-icon :interval "20m"  "cat /tmp/weather/weather-icon")
+    (defpoll temperature :interval "20m"  "cat /tmp/weather/weather-degree")
+    (defpoll weather-hex :interval "20m"  "cat /tmp/weather/weather-hex")
+    (defpoll weather-quote :interval "20m"  "~/.config/eww/scripts/getwethquote")
+    (defpoll weather-quote2 :interval "20m"  "~/.config/eww/scripts/getwethquote2")
+    (defpoll weather-stat :interval "20m"  "cat /tmp/weather/weather-stat")
+    (defpoll weather-stat-side :interval "20m"  "~/.config/eww/scripts/weather-trimmer")
+
+    ;; Do not disturb var
+    (defpoll disturb-hex :interval "1s"  "cat /tmp/wm/donotdisturb/color")
+    ;; Your Name (not the anime movie, sadly)
+    (defpoll whoami :interval "50h" "whoami")
+
+    ;; Big brain RAM vars
+    (defpoll ram-used :interval "1s"  "~/.config/eww/scripts/getram")
+
+    ;; Battery charge vars
+    (defpoll battery-remaining :interval "5s"  "cat /sys/class/power_supply/BAT0/capacity")
+    (defpoll bat-icon :interval "5s"  "~/.config/tint2/scripts/battery.sh")
+
+    ;; Home-dir stuff
+    (defpoll l1-processed :interval "20h"  "~/.config/eww/scripts/home-dir/l1-processed")
+    (defpoll l2-processed :interval "20h"  "~/.config/eww/scripts/home-dir/l2-processed")
+    (defpoll l3-processed :interval "20h"  "~/.config/eww/scripts/home-dir/l3-processed")
+    (defpoll l4-processed :interval "20h"  "~/.config/eww/scripts/home-dir/l4-processed")
+    (defpoll l5-processed :interval "20h"  "~/.config/eww/scripts/home-dir/l5-processed")
+    (defpoll l6-processed :interval "20h"  "~/.config/eww/scripts/home-dir/l6-processed")
+    (defpoll l1 :interval "20h"  "~/.config/eww/scripts/home-dir/l1")
+    (defpoll l2 :interval "20h"  "~/.config/eww/scripts/home-dir/l2")
+    (defpoll l3 :interval "20h"  "~/.config/eww/scripts/home-dir/l3")
+    (defpoll l4 :interval "20h"  "~/.config/eww/scripts/home-dir/l4")
+    (defpoll l5 :interval "20h"  "~/.config/eww/scripts/home-dir/l5")
+    (defpoll l6 :interval "20h"  "~/.config/eww/scripts/home-dir/l6")
+
+
+    ;; Quote vars
+    (defpoll author-quote :interval "10m"  "cat /tmp/wm/quotes/author")
+    (defpoll quote :interval "10m"  "cat /tmp/wm/quotes/quote")
+    (defpoll quote-gen :interval "1m"  "~/.config/eww/scripts/quotes")
+    (defpoll quote-tail :interval "10m"  "cat /tmp/wm/quotes/quote-tail")
+
+    ;; Vpn stats
+    (defpoll getvpnstat :interval "1s"  "~/.config/eww/scripts/getvpnstat")
+    (defpoll vpn-hex :interval "1s"  "cat /tmp/wm/vpnstat-hex")
+
+    ;; Net_Side ;;
+    (defpoll wifi-icon :interval "5s" "~/.config/eww/scripts/wifi icon")
+    (defpoll wifi-name :interval "5s" "~/.config/eww/scripts/wifi name")
+    (defpoll wifi-color :interval "5s" "~/.config/eww/scripts/wifi color")
+    (defvar wifi-rev false)
+
+
+    (defvar eww "$HOME/bin/eww -c $HOME/.config/eww/")
+
