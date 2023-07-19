@@ -1,6 +1,3 @@
-cp -r config/qtile/ ~/.config/
-sudo -H pip install psutil
-
 # Copying to right places
 cp -r alacritty/ ~/.config/
 cp -r picom/ ~/.config/
