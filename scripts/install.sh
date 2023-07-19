@@ -19,6 +19,7 @@ rm -rf yay-bin
        xdg-user-dirs \
        ttf-font-awesome \
        python-pip \
-       picom
+       picom \
+       eww
       
 # Should hopefully cover everything
