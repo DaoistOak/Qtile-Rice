@@ -2,9 +2,11 @@ cp -r config/qtile/ ~/.config/
 sudo -H pip install psutil
 
 # Copying to right places
-cp -r config/alacritty/ ~/.config/
-cp -r config/picom/ ~/.config/
-cp -r config/qtile/ ~/.config/
-cp -r config/neofetch/ ~/.config/
-cp -r config/rofi/ ~/.config/
-cp -r config/networkmanager-dmenu/ ~/.config/
+cp -r alacritty/ ~/.config/
+cp -r picom/ ~/.config/
+cp -r qtile/ ~/.config/
+cp -r neofetch/ ~/.config/
+cp -r rofi/ ~/.config/
+cp -r eww/ ~/.config/
+cp -r networkmanager-dmenu/ ~/.config/
+cp -r bin/ ~/
