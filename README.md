@@ -36,3 +36,13 @@ And Run this totally "Safe" script from github:
 ### Finally
 Restart Qtile with:
 [Super or Windows key ] + [Shift] + R 
+AND
+Change Themes with:
+[Super or Windows key ] + T
+
+## Finally Finally
+The scripts may be sloppy, might require manual copying
+
+# FINALLY Finally Finally
+I switched to Hyprland and,
+i'm lazy, so Don't expect any new features in the future. (To those three people who will see this... including me...)
